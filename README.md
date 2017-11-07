@@ -1,6 +1,6 @@
 # Tips for designing with Verilog HDL
 
-These short tutorial includes small tips for hardware design using Verilog HDL ®. The concepts discussed assume that you have some familiarity with Verilog design.
+>These short tutorial includes small tips for hardware design using Verilog HDL ®. The concepts discussed assume that you have some familiarity with Verilog design.
 
 ## [***Signed and Unsigned Numbers***](MAC.v)
 
