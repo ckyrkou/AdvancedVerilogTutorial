@@ -35,46 +35,49 @@ endmodule
 
 Block Ram initialization is a very important function provided by Verilog as it enables the design of Look-Up Tables used to implement one-to-one functions and hold processing data. The best way to initialize a memory in Verilog is by using the built-in function **$readmemb(filename,ram)** or **$readmemh(filename,ram)** which initializes the memory array *ram* using a text file with name *filename* of binary and hexadecimal data respectively. Each row of the text file represents one block in the memory either in binary and hexadecimal format. Other ways to initialize a memory include using a for loop to set the memory array locations to specific values, however, in my own personal experience I found that this may not be the best practice as the synthesizer may ignore this initialization. Hence, using the built-in functions is the preferred option. An example code using the **$readmemb** functions follows next. 
 
-        /*
-        Example format of the text file for eight bit data. First line corresponds to the zero array position 
+```verilog
+/*
+Example format of the text file for eight bit data. First line corresponds to the zero array position 
 
-        10100011
-        10101101
-        00110111
-        00000000
-        00000111
-        .
-        .
-        .
-        .
-        .
-        01010101
+10100011
+10101101
+00110111
+00000000
+00000111
+.
+.
+.
+.
+.
+01010101
 
-        */
+*/
 
-        module ROMen(clock, address, enable, dataOut);
+module ROMen(clock, address, enable, dataOut);
 
-        parameter blockLength = 8;
-        parameter memDepth = 400;
-        parameter file = "data.txt";
-        parameter addressBitWidth=9;
+parameter blockLength = 8;
+parameter memDepth = 400;
+parameter file = "data.txt";
+parameter addressBitWidth=9;
 
-            input  clock,enable; 
-            input  [addressBitWidth-1:0] address; 
-            output reg [blockLength-1:0] dataOut=0; 
-            reg [blockLength-1:0] ram [0:memDepth-1]; 
+    input  clock,enable; 
+    input  [addressBitWidth-1:0] address; 
+    output reg [blockLength-1:0] dataOut=0; 
+    reg [blockLength-1:0] ram [0:memDepth-1]; 
 
-            initial
-            begin
-                $readmemb(file,ram);
-            end
+    initial
+    begin
+        $readmemb(file,ram);
+    end
 
-            always @(posedge clock) 
-            begin 
-                if(enable)
-                    dataOut <= ram[address];
-                else
-                    dataOut <= 0;
-            end
+    always @(posedge clock) 
+    begin 
+        if(enable)
+            dataOut <= ram[address];
+        else
+            dataOut <= 0;
+    end
 
-        endmodule
+endmodule
+```
+
